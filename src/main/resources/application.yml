@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: kafka-consumer-springboot
+#  kafka:
+#    consumer:
+#      bootstrap-servers:
+#        - localhost:9092
+#      group-id: kafka-group-1
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring:
+#          json:
+#            trusted:
+#              packages: com.technophile.dto
+
+
+server:
+  port: 9192
+  servlet:
+    context-path: /consumer-app
