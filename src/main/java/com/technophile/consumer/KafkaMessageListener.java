@@ -4,18 +4,19 @@ import com.technophile.dto.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaMessageListener {
     Logger log = LoggerFactory.getLogger(KafkaMessageListener.class);
 
-//    /**
-//     * These consumers under same group ,assigned to each partition to increase the throughput
-//     * but it is not recommended way instead of it use concurrency
-//     * @param message
-//     */
-//    @KafkaListener(topics = "java-demo1",groupId = "kafka-group-new")
+    /**
+     * These consumers under same group ,assigned to each partition to increase the throughput
+     * but it is not recommended way instead of it use concurrency
+     * @param message
+     */
+//    @KafkaListener(topics = "sunday",groupId = "weekend")
 //    public void consume1(String message){
 //        log.info("Consumer1 consume the message {}",message);
 //    }
@@ -32,8 +33,18 @@ public class KafkaMessageListener {
 //        log.info("Consumer4 consume the message {}",message);
 //    }
 
-    @KafkaListener(topics = "java-demo",groupId = "kafka-group-new")
-    public void consume4(Customer customer){
-        log.info("Consumer consume the customer events {}",customer);
+//    @KafkaListener(topics = "java-demo",groupId = "kafka-group-new")
+//    public void consume4(Customer customer){
+//        log.info("Consumer consume the customer events {}",customer);
+//    }
+
+    /**
+     * Consume message from specific partition
+     * @param message
+     */
+    @KafkaListener(topics = "sunday",groupId = "weekend",
+            topicPartitions = {@TopicPartition(topic = "sunday",partitions = "0")})
+    public void consumeMessageFromSpecificPartition(String message){
+        log.info("ConsumeMessageFromSpecificPartition the message {}",message);
     }
 }
