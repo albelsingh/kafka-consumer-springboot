@@ -27,15 +27,17 @@ public class KafkaMessageListener {
      * but it is not recommended way instead of it use concurrency
      *
      */
-//    @KafkaListener(topics = "sunday",groupId = "weekend")
-//    public void consume1(String message){
-//        log.info("Consumer1 consume the message {}",message);
-//    }
-//    @KafkaListener(topics = "java-demo1",groupId = "kafka-group-new")
+    @KafkaListener(topics = "monday",groupId = "weekend-m")
+    public void consume1(String message){
+        log.info("Consumer1 consume the message {}",message);
+    }
+
+//    @KafkaListener(topics = "monday",groupId = "weekend-m")
 //    public void consume2(String message){
 //        log.info("Consumer2 consume the message {}",message);
 //    }
-//    @KafkaListener(topics = "java-demo1",groupId = "kafka-group-new")
+//
+//    @KafkaListener(topics = "monday",groupId = "weekend-m")
 //    public void consume3(String message){
 //        log.info("Consumer3 consume the message {}",message);
 //    }
@@ -59,25 +61,25 @@ public class KafkaMessageListener {
         log.info("ConsumeMessageFromSpecificPartition the message {}",message);
     }*/
 
-    @RetryableTopic(attempts = "4")// 3 topic N-1
-    @KafkaListener(topics = "${app.topic.name}", groupId = "kafka-dlt-group")
-    public void consumeEvents(User user, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
-        try {
-            log.info("Received: {} from {} offset {}", new ObjectMapper().writeValueAsString(user), topic, offset);
-            //validate restricted IP before process the records
-            List<String> restrictedIpList = Stream.of("32.241.244.236", "15.55.49.164", "81.1.95.253", "126.130.43.183").collect(Collectors.toList());
-            if (restrictedIpList.contains(user.getIpAddress())) {
-                throw new RuntimeException("Invalid IP Address received !");
-            }
-
-        } catch (JsonProcessingException e) {
-            //e.printStackTrace();
-            log.error("Error ::",e);
-        }
-    }
-
-    @DltHandler
-    public void listenDLT(User user, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
-        log.info("DLT Received : {} , from {} , offset {}",user.getFirstName(),topic,offset);
-    }
+//    @RetryableTopic(attempts = "4")// 3 topic N-1
+//    @KafkaListener(topics = "${app.topic.name}", groupId = "kafka-dlt-group")
+//    public void consumeEvents(User user, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
+//        try {
+//            log.info("Received: {} from {} offset {}", new ObjectMapper().writeValueAsString(user), topic, offset);
+//            //validate restricted IP before process the records
+//            List<String> restrictedIpList = Stream.of("32.241.244.236", "15.55.49.164", "81.1.95.253", "126.130.43.183").collect(Collectors.toList());
+//            if (restrictedIpList.contains(user.getIpAddress())) {
+//                throw new RuntimeException("Invalid IP Address received !");
+//            }
+//
+//        } catch (JsonProcessingException e) {
+//            //e.printStackTrace();
+//            log.error("Error ::",e);
+//        }
+//    }
+//
+//    @DltHandler
+//    public void listenDLT(User user, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
+//        log.info("DLT Received : {} , from {} , offset {}",user.getFirstName(),topic,offset);
+//    }
 }

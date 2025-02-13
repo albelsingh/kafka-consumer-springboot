@@ -42,6 +42,19 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, Object> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(2);
         return factory;
     }
+    /** factory.setConcurrency(3)
+     * It will create 3 consumer to consume message whereas we have written 1 consumer
+     *
+     * factory.setConcurrency(2)
+     * If we have set concurrency less(2) than partitions(3) of the topic in this case 2 consumer
+     * consume from two partitions and another consumer will consume from third partition
+     *
+     * factory.setConcurrency(4)
+     * If we have concurrency level 4 more than topic partition in this case each consumer will
+     * assigned to each partition and remaining consumer will be idle and it will be assigned
+     * if any consumer failed/broken up after re-balancing
+     */
 }
